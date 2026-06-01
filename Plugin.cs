@@ -19,7 +19,7 @@ public class Plugin : BaseUnityPlugin {
     public static string workingDir = Path.GetDirectoryName(workingPath);
     public const string PluginGUID = "com.github.end-4.glassCybergrindStartRoom";
     public const string PluginName = "GlassCybergrindStartRoom";
-    public const string PluginVersion = "1.0.0";
+    public const string PluginVersion = "1.0.1";
 
     // internal static GameObject RoomPrefab;
     internal static GameObject RoomCeilingPrefab;
