@@ -58,7 +58,7 @@ public class Plugin : BaseUnityPlugin {
         RoomWallsPrefab = bundle.LoadAsset<GameObject>("Walls");
         RoomFloorPrefab = bundle.LoadAsset<GameObject>("Floor");
         HallwayWallsPrefab = bundle.LoadAsset<GameObject>("HallwayWalls");
-        // bundle.Unload(false); // ?
+        bundle.Unload(false);
     }
 
     private void Awake() {

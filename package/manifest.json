@@ -3,7 +3,7 @@
     "author": "end_4",
     "version_number": "1.0.0",
     "website_url": "https://github.com/end-4/ultrakill-glass-cybergrind-start-room",
-    "description": "Gives the start room in Cybergrind a nice glass wall, so you can see your skybox live.",
+    "description": "Gives the start room in Cybergrind a nice glass wall, so you can see the skybox live while changing it",
     "dependencies": [
         "BepInEx-BepInExPack-5.4.2100"
     ]
