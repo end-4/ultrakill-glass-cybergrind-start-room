@@ -19,19 +19,19 @@ public class Plugin : BaseUnityPlugin {
     public static string workingDir = Path.GetDirectoryName(workingPath);
     public const string PluginGUID = "com.github.end-4.glassCybergrindStartRoom";
     public const string PluginName = "GlassCybergrindStartRoom";
-    public const string PluginVersion = "1.0.1";
+    public const string PluginVersion = "1.0.2";
 
     // internal static GameObject RoomPrefab;
-    internal static GameObject RoomCeilingPrefab;
-    internal static GameObject RoomWallsPrefab;
-    internal static GameObject RoomFloorPrefab;
-    internal static GameObject HallwayPrefab;
-    internal static GameObject HallwayWallsPrefab;
+    internal static GameObject? RoomCeilingPrefab;
+    internal static GameObject? RoomWallsPrefab;
+    internal static GameObject? RoomFloorPrefab;
+    internal static GameObject? HallwayPrefab;
+    internal static GameObject? HallwayWallsPrefab;
 
     private static readonly string BundlePath =
         Path.Combine(workingDir, "assets", "stained_glass_cybergrind_start_room.bundle");
 
-    internal static GameObject FindNestedObject(GameObject baseObject, string path) {
+    internal static GameObject? FindNestedObject(GameObject baseObject, string path) {
         Transform t = baseObject.transform;
         string[] pathItems = path.Split("/");
         for (int i = 0; i < pathItems.Length; i++) {
@@ -47,7 +47,7 @@ public class Plugin : BaseUnityPlugin {
     }
 
     private void LoadObjects() {
-        AssetBundle bundle = AssetBundle.LoadFromFile(BundlePath);
+        var bundle = AssetBundle.LoadFromFile(BundlePath);
         if (bundle == null) {
             Log.LogError("Couldn't load asset bundle. Aborting.");
             return;
@@ -68,28 +68,28 @@ public class Plugin : BaseUnityPlugin {
         // Add scene load replacement
         SceneManager.sceneLoaded += (_, _) => {
             if (SceneHelper.CurrentScene != "Endless") return;
-            GameObject firstroom = SceneManager.GetActiveScene().GetRootGameObjects()
+            var firstroom = SceneManager.GetActiveScene().GetRootGameObjects()
                 .FirstOrDefault(obj => obj.name == "FirstRoom");
-            if (firstroom) {
-                Transform room = Plugin.FindNestedObject(firstroom, "Room/Room").transform;
-                Transform hallway = Plugin.FindNestedObject(firstroom, "Room/Hallway").transform;
-                GameObject firstRoomFloor = Plugin.FindNestedObject(room.gameObject, "Floor");
-                GameObject firstRoomCeiling = Plugin.FindNestedObject(room.gameObject, "Ceiling");
-                GameObject firstRoomWalls = Plugin.FindNestedObject(room.gameObject, "Walls");
-                GameObject hallwayWalls = Plugin.FindNestedObject(hallway.gameObject, "Walls");
-                firstRoomFloor.SetActive(false);
-                firstRoomCeiling.SetActive(false);
-                firstRoomWalls.SetActive(false);
-                hallwayWalls.SetActive(false);
-                GameObject frf = Object.Instantiate(Plugin.RoomFloorPrefab, room, true);
-                GameObject frc = Object.Instantiate(Plugin.RoomCeilingPrefab, room, true);
-                GameObject frw = Object.Instantiate(Plugin.RoomWallsPrefab, room, true);
-                GameObject hw = Object.Instantiate(Plugin.HallwayWallsPrefab, hallway, true);
+            if (firstroom != null) {
+                Transform room = FindNestedObject(firstroom, "Room/Room")!.transform;
+                Transform hallway = FindNestedObject(firstroom, "Room/Hallway")!.transform;
+                var firstRoomFloor = FindNestedObject(room.gameObject, "Floor");
+                var firstRoomCeiling = FindNestedObject(room.gameObject, "Ceiling");
+                var firstRoomWalls = FindNestedObject(room.gameObject, "Walls");
+                var hallwayWalls = FindNestedObject(hallway.gameObject, "Walls");
+                firstRoomFloor?.SetActive(false);
+                firstRoomCeiling?.SetActive(false);
+                firstRoomWalls?.SetActive(false);
+                hallwayWalls?.SetActive(false);
+                var frf = Instantiate(Plugin.RoomFloorPrefab, room, true);
+                var frc = Instantiate(Plugin.RoomCeilingPrefab, room, true);
+                var frw = Instantiate(Plugin.RoomWallsPrefab, room, true);
+                var hw = Instantiate(Plugin.HallwayWallsPrefab, hallway, true);
 
-                frf.transform.localPosition = firstRoomFloor.transform.localPosition;
-                frc.transform.localPosition = firstRoomCeiling.transform.localPosition;
-                frw.transform.localPosition = firstRoomWalls.transform.localPosition;
-                hw.transform.localPosition = hallwayWalls.transform.localPosition;
+                if (frf != null && firstRoomFloor != null) frf.transform.localPosition = firstRoomFloor.transform.localPosition;
+                if (frc != null && firstRoomCeiling != null) frc.transform.localPosition = firstRoomCeiling.transform.localPosition;
+                if (frw != null && firstRoomWalls != null) frw.transform.localPosition = firstRoomWalls.transform.localPosition;
+                if (hw != null && hallwayWalls != null) hw.transform.localPosition = hallwayWalls.transform.localPosition;
             }
         };
 
